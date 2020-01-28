@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { Mutation} from 'react-apollo';
+import { /* Mutation, Query, */ graphql} from 'react-apollo';
+import * as compose from 'lodash.flowright';
 import { gql }  from 'apollo-boost';
 
 import CartIcon from './cart-icon.component';
@@ -14,16 +15,34 @@ const TOGGLE_CART_HIDDEN = gql`
 }
 `;
 
-const CartIconContainer =()=> (
+const GET_ITEM_COUNT = gql`
+   itemCount @client
+`;
+
+const CartIconContainer =({ data : {itemCount},toggleCartHidden})=> (
+    <CartIcon toggleCartHidden ={toggleCartHidden} 
+                      itemCount={itemCount}/>);
     // we witll take a query where 
     // query prop is the gql function
     // variables is the match title
-<Mutation mutation ={TOGGLE_CART_HIDDEN} >
+  /* <Query query = { GET_ITEM_COUNT }>
+    {     
+    ({data: {itemCount}})=>( 
+      <Mutation mutation ={TOGGLE_CART_HIDDEN} >
         {// we will destruct and put the getcollectionbytitle 
          // returnsinto data
-           toggleCartHidden => <CartIcon toggleCartHidden ={toggleCartHidden}/>
+           toggleCartHidden => <CartIcon toggleCartHidden ={toggleCartHidden} 
+                                                 itemCount={itemCount}/>
         }
-   </Mutation>
-);
+      </Mutation>)
+   
+    }
+ </Query> */
+ 
 
-export default CartIconContainer; 
+
+export default compose(
+    graphql(GET_ITEM_COUNT),
+    graphql(TOGGLE_CART_HIDDEN,{name : 'toggleCartHidden'})
+   
+)(CartIconContainer); 
