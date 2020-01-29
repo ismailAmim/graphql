@@ -7,25 +7,26 @@ import { gql }  from 'apollo-boost';
 import CartIcon from './cart-icon.component';
 
 // we make a query request
-// dynamically using getCollectionsByTitle  
-// to pass variables -- like title as a string 
+// dynamically using toggleCartHidden  
+// that changes cartHidden property
+
 const TOGGLE_CART_HIDDEN = gql`
     mutation ToggleCartHidden {
-    toggleCartHidden @client
+      toggleCartHidden @client
 }
 `;
 
 const GET_ITEM_COUNT = gql`
-   itemCount @client
+{
+    itemCount @client
+}
 `;
-
+// return itemCount from  data
+// return toggleCartHidden funct
 const CartIconContainer =({ data : {itemCount},toggleCartHidden})=> (
     <CartIcon toggleCartHidden ={toggleCartHidden} 
                       itemCount={itemCount}/>);
-    // we witll take a query where 
-    // query prop is the gql function
-    // variables is the match title
-  /* <Query query = { GET_ITEM_COUNT }>
+     /* <Query query = { GET_ITEM_COUNT }>
     {     
     ({data: {itemCount}})=>( 
       <Mutation mutation ={TOGGLE_CART_HIDDEN} >
@@ -44,5 +45,4 @@ const CartIconContainer =({ data : {itemCount},toggleCartHidden})=> (
 export default compose(
     graphql(GET_ITEM_COUNT),
     graphql(TOGGLE_CART_HIDDEN,{name : 'toggleCartHidden'})
-   
-)(CartIconContainer); 
+    )(CartIconContainer); 

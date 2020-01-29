@@ -10,7 +10,7 @@ import Spinner from '../../components/spinner/spinner.component';
 // dynamically using getCollectionsByTitle  
 // to pass variables -- like title as a string 
 const GET_COLLECTION_BY_TTITLE = gql`
-    query getCollectionsByTitle($title : String!) {
+    query GetCollectionsByTitle($title : String!) {
         getCollectionsByTitle( title : $title ){
             id 
             title
